@@ -35,16 +35,4 @@
 
     </FrameLayout>
 
-    <fragment
-        android:id="@+id/main_list_fragment"
-        android:name="android.support.v4.app.ListFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/layout_header"
-        android:layout_centerHorizontal="true"
-        android:background="#ffffff"
-        tools:layout="@layout/record_list_view"
-        android:layout_margin="4dp" />
-
 </RelativeLayout>
