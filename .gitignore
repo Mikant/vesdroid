@@ -19,3 +19,5 @@ local.properties
 .classpath
 .project
 .iml
+/ves_droid.db
+/ves_droid.db.zip

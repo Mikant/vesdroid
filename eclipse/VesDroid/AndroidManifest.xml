@@ -6,7 +6,11 @@
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="10"
+        android:maxSdkVersion="19" />
+    
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,14 +18,37 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.app.vesdroid.MainActivity"
+            android:name="com.app.vesdroid.Activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
+            <intent-filter
+		    	android:icon="@drawable/ic_launcher"
+		        android:label="@string/app_name"
+		    	android:priority='1'>
+			    <action android:name="android.intent.action.VIEW" />
+			    <action android:name="android.intent.action.EDIT" /> 
+			    <action android:name="android.intent.action.PICK" />
+			    <category android:name="android.intent.category.DEFAULT" />
+			    <category android:name="android.intent.category.BROWSABLE" /> 
+				<data android:mimeType="text/csv" />  
+			    <data android:pathPattern="*.csv" />
+			</intent-filter>
         </activity>
+        
+        <activity android:name="com.app.vesdroid.Activities.EditPicketActivity"></activity>
+        <activity android:name="com.app.vesdroid.Activities.EditProfileActivity"></activity>
+        <activity android:name="com.app.vesdroid.Activities.EditProjectActivity"></activity>
+        <activity android:name="com.app.vesdroid.Activities.EditProtocolActivity"></activity>
+        <activity android:name="com.app.vesdroid.Activities.PicketViewActivity"></activity>
+        <activity android:name="com.app.vesdroid.Activities.ProjectsActivity"></activity>
+        <activity android:name="com.app.vesdroid.Activities.ProtocolsActivity"></activity>
+        <activity android:name="com.app.vesdroid.Activities.ProtocolViewActivity"></activity>
+        <activity android:name="com.app.vesdroid.Activities.WorkActivity"></activity>
     </application>
 
 </manifest>

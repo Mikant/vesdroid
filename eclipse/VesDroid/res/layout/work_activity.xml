@@ -11,16 +11,17 @@
 
         <TextView
             android:id="@+id/textViewProject"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:layout_weight="1"
             android:text="Проект: "
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewProjectName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:text="1"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -33,16 +34,17 @@
 
         <TextView
             android:id="@+id/textViewProfile"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:layout_weight="1"
             android:text="Профиль: "
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewProfileName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:text="2"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -54,17 +56,18 @@
         android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
+            android:id="@+id/textViewPicket"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:layout_weight="1"
             android:text="Пикет: "
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
+            android:id="@+id/textViewPicketLocation"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:text="3"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -177,7 +180,9 @@
             android:id="@+id/editTextVoltage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="number" />
+            android:inputType="number">
+            <requestFocus/>
+        </EditText>
 
     </TableRow>
 
