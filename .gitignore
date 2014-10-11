@@ -16,8 +16,8 @@ gen/
 local.properties
 
 # Project files
-.classpath
-.project
+#.classpath
+#.project
 .iml
 /ves_droid.db
 /ves_droid.db.zip
