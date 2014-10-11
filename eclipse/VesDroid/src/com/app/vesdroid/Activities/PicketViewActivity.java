@@ -1,6 +1,8 @@
 package com.app.vesdroid.Activities;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -34,6 +36,31 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class PicketViewActivity extends Activity {
+	
+	public class RecordComparer implements Comparator<Record> {
+	    @Override
+	    public int compare(Record o1, Record o2) {
+	    	Long l1 = o1.getDateTimeMillis(); 
+	    	Long l2 = o2.getDateTimeMillis();
+	    	
+	    	int r = compareGeometry(o1, o2);
+	    	
+	        return r != 0 ? r :	l1.compareTo(l2);
+	    }
+	    
+	    public int compareGeometry(Record o1, Record o2) {
+	    	Float ab21 = Stuff.mod(o1.getA(), o1.getB());
+	    	Float ab22 = Stuff.mod(o2.getA(), o2.getB());
+	    	
+	    	Float mn1 = Stuff.mod(o1.getM(), o1.getN()); 
+	    	Float mn2 = Stuff.mod(o2.getM(), o2.getN()); 
+	    	
+        	return
+        		Stuff.mod(ab21, ab22) > Stuff.EPS ? ab21.compareTo(ab22) :
+        		Stuff.mod(mn1, mn2) < Stuff.EPS ? 0 : mn1.compareTo(mn2);
+	    }
+	}
+	
 	boolean mIsPan;
 	boolean mIsZoom;
 	HashMap<Integer, ArrayList<Point>> hmABR;
@@ -55,9 +82,30 @@ public class PicketViewActivity extends Activity {
 		setContentView(R.layout.picket_view_activity);
 		
 		String picketId = getIntent().getExtras().getString(Stuff.PICKET_ID);
+		
 		ArrayList<Record> dbRecords = RecordManager.getAllRecordsForPicket(this, picketId);
 		ArrayList<Record> actualRecords = new ArrayList<Record>();
+
+		int dbRecordsCount = dbRecords.size();
+		if (dbRecordsCount > 0) {
+			RecordComparer comparer = new RecordComparer();
+			Collections.sort(dbRecords, comparer);
+			
+			Record prev = dbRecords.get(dbRecordsCount - 1);
+			actualRecords.add(prev);
+			for (int i = dbRecordsCount - 2; i >= 0; i--) {
+				Record current = dbRecords.get(i);
+				
+				if (comparer.compareGeometry(prev, current) != 0)
+					actualRecords.add(current);
+					
+				prev = current;
+			}
+			
+			Collections.reverse(actualRecords);
+		}
 		
+		/*
 		// выбираем "последние" замеры из базы
 		for (int i = 0; i < dbRecords.size(); i++) {
 			Record r = dbRecords.get(i);
@@ -86,7 +134,9 @@ public class PicketViewActivity extends Activity {
 			}
 			else actualRecords.add(r);
 		}
+		*/
 		
+		/*
 		// тестовые данные
 		actualRecords = new ArrayList<Record>();
 		for (int i = 0; i < 10; i++) {
@@ -113,11 +163,14 @@ public class PicketViewActivity extends Activity {
 			r.setN(2);
 			actualRecords.add(r);
 		}
+		*/
 		
 		HashMap<Float, ArrayList<Record>> mns = new HashMap<Float, ArrayList<Record>>();
 		for (int i = 0; i < actualRecords.size(); i++) {
 			Record r = actualRecords.get(i);
 			float mn = Stuff.mod(r.getM(), r.getN());
+			
+			mn = Math.round(mn * 1000) / 1000f; // округляем до мм
 			
 			ArrayList<Record> alr = mns.get(mn);
 			if (alr == null){

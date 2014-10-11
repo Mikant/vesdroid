@@ -23,7 +23,7 @@ public class ProfileManager {
 		
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 		SQLiteDatabase database = dataBaseHelper.getReadableDatabase();
-		Cursor cursor = database.query(DataBaseHelper.PROFILE_TABLE, null, null, null, null, null, null);
+		Cursor cursor = database.query(DataBaseHelper.PROFILE_TABLE, null, DataBaseHelper.COLUMN_PROJECT_ID +  " = ?", new String[]{ projectId.toString() }, null, null, null);
 		if (cursor.moveToFirst()){
 			do{
 				Profile profile = new Profile();
@@ -71,7 +71,7 @@ public class ProfileManager {
 			profile.setId(UUID.randomUUID());
 			database.insert(DataBaseHelper.PROFILE_TABLE, null, getContentValues(profile));
 			
-			if (currentProjectId.equals(profile.getProjectId()))
+			if (currentProjectId != null && currentProjectId.equals(profile.getProjectId()))
 				profiles.add(profile);
 		}
 		else {

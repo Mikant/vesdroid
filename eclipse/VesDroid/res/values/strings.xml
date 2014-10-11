@@ -12,5 +12,10 @@
     <string name="chooseProtocolString">Выберите протокол</string>
     <string name="saveString">Сохранить</string>
     <string name="cancelString">Отмена</string>
-
+    <string name="currentInput">Сила тока, мА</string>
+    <string name="voltageInput">Напряжение, мВ</string>
+    <string name="profile">Профиль</string>
+    
+    <string name="msg_UnableToSaveProject">Не удалось сохранить профиль</string>
+    
 </resources>

@@ -52,18 +52,20 @@ public class ProjectManager {
 		return null;
 	}
 	
-	public static boolean saveOrUpdateProject(Context context, Project project){
+	public static boolean saveOrUpdateProject(Context context, Project project) { 
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 		SQLiteDatabase database = dataBaseHelper.getWritableDatabase();
 
-		if (project.getId() == null){
+		if (project.getId() == null) {
 			project.setId(UUID.randomUUID());
 			database.insert(DataBaseHelper.PROJECT_TABLE, null, getContentValues(project));
+			
+			getAllProjects(context).add(project);
 		}
 		else {
 			database.update(DataBaseHelper.PROJECT_TABLE, getContentValues(project), "_id = ?", new String[]{project.getId().toString()});
-
 		}
+		
 		database.close();
 		dataBaseHelper.close();
 		

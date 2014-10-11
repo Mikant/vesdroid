@@ -46,15 +46,24 @@ public class MainActivity extends Activity implements OnClickListener {
 		String action = intent.getAction();
 		if (action == Intent.ACTION_VIEW)
 			ImportExport.importData(this, intent.getData());
-		
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		updateTitle();
+	}
+
+	private void updateTitle() {
 		Protocol protocol = ProtocolManager.getActiveProtocol(this);
-		if (protocol == null) Toast.makeText(this, "Выберите активный протокол", Toast.LENGTH_LONG).show();
+		if (protocol == null)
+			Toast.makeText(this, "Выберите активный протокол", Toast.LENGTH_LONG).show();
 		else {
 			String title = getResources().getString(R.string.app_name) + "  Активный протокол: " + protocol.getName();
 			setTitle(title);
 		}
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 	    switch (v.getId()) {

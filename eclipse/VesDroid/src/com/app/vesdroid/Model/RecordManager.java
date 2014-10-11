@@ -22,7 +22,7 @@ public class RecordManager {
 		
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 		SQLiteDatabase database = dataBaseHelper.getReadableDatabase();
-		Cursor cursor = database.query(DataBaseHelper.RECORD_TABLE, null, null, null, null, null, null);
+		Cursor cursor = database.query(DataBaseHelper.RECORD_TABLE, null, DataBaseHelper.COLUMN_PICKET_ID + " = ?", new String[]{ picketId.toString() }, null, null, null);
 		if (cursor.moveToFirst()){
 			do{
 				Record record = new Record();
