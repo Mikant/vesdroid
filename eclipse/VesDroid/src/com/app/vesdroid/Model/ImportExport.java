@@ -21,7 +21,7 @@ public class ImportExport {
 	
 	private static File validateExport(Context context, String fileName){
 	    if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-	    	Toast.makeText(context, "Ёкспорт не возможен: недоступна карта пам€ти", Toast.LENGTH_LONG).show();
+	    	Toast.makeText(context, "Ёкспорт невозможен: недоступна карта пам€ти", Toast.LENGTH_LONG).show();
 	      return null;
 	    }
 
@@ -29,7 +29,7 @@ public class ImportExport {
 	    File file = new File(filePath, fileName);
 	    if (file.exists()){
 	    	Toast.makeText(context
-	    			, "Ёкспорт не возможен: файл с названием \n\"" + fileName + "\"\n уже существует"
+	    			, "Ёкспорт невозможен: файл с именем \n\"" + fileName + "\"\n уже существует"
 	    			, Toast.LENGTH_LONG).show();
 	    	return null;
 	    }
@@ -97,7 +97,7 @@ public class ImportExport {
 	}
 	
 	public static void exportData(Context context, Protocol protocol){
-	    String fileName = protocol.getName() + ".csv";
+	    String fileName = protocol.getName() + ".protocol";
 	    File file = validateExport(context, fileName);
 	    
 	    if (file == null) return;

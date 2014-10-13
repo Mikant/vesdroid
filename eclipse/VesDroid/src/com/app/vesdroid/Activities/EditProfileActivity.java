@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -30,6 +31,8 @@ public class EditProfileActivity extends Activity implements OnClickListener {
 	EditText editTextName;
 	EditText editTextComment;
 	ListView listViewPicket;
+	
+	String projectId;
 	
 	Profile profile;
 	ArrayList<Picket> pickets;
@@ -52,7 +55,6 @@ public class EditProfileActivity extends Activity implements OnClickListener {
 		Button buttonCancelProfile = (Button) findViewById(R.id.buttonCancelProfile);
 		buttonCancelProfile.setOnClickListener(this);
 		
-		
 		listViewPicket = (ListView) findViewById(R.id.listViewPicket);
 		listViewPicket.setOnItemClickListener(new OnItemClickListener() {
 
@@ -61,7 +63,8 @@ public class EditProfileActivity extends Activity implements OnClickListener {
 					long arg3) {
 				Picket picket = pickets.get(pos);
 				Intent intent = new Intent(EditProfileActivity.this, EditPicketActivity.class);
-				intent.putExtra(Stuff.PROFILE_ID, profile.getId().toString());
+				putPicketActivityBaseExtras(intent);
+				
 				intent.putExtra(Stuff.PICKET_ID, picket.getId().toString());
 				startActivity(intent);
 			}
@@ -72,13 +75,28 @@ public class EditProfileActivity extends Activity implements OnClickListener {
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int pos, long arg3) {
 				Intent intent = new Intent(EditProfileActivity.this,  PicketViewActivity.class);
-				Picket picket = pickets.get(pos);
-				intent.putExtra(Stuff.PROFILE_ID, profile.getId().toString());
-				intent.putExtra(Stuff.PICKET_ID, picket.getId().toString());
+				putPicketActivityBaseExtras(intent);
+				
+				intent.putExtra(Stuff.PICKET_ID, pickets.get(pos).getId().toString());
 				startActivity(intent);
 				return true;
 			}
 		});
+		
+		editTextName.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (!hasFocus) {
+					profile.setName(editTextName.getText().toString());
+					updateTitle();
+				}			
+			}
+		});
+	}
+	
+	private void putPicketActivityBaseExtras(Intent intent) {
+		intent.putExtra(Stuff.PROJECT_ID, projectId);
+		intent.putExtra(Stuff.PROFILE_ID, profile.getId().toString());
 	}
 	
 	@Override
@@ -86,8 +104,11 @@ public class EditProfileActivity extends Activity implements OnClickListener {
 		super.onResume();
 		
 		Bundle bundle = getIntent().getExtras();
-		String projectId = bundle.getString(Stuff.PROJECT_ID);
+		
+		projectId = bundle.getString(Stuff.PROJECT_ID);
+		
 		String profileId = bundle.getString(Stuff.PROFILE_ID);
+		
 		if (profileId == null){
 			profile = new Profile();
 			profile.setProjectId(projectId);
@@ -103,7 +124,11 @@ public class EditProfileActivity extends Activity implements OnClickListener {
 		
 		editTextName.setText(profile.getName());
 		editTextComment.setText(profile.getComment());
-		setTitle("Профиль: " + profile.getName());
+		updateTitle();
+	}
+	
+	private void updateTitle() {
+		setTitle(getResources().getString(R.string.profile) + ": " + profile.getName());
 	}
 	
 	boolean saveData(){
@@ -111,7 +136,7 @@ public class EditProfileActivity extends Activity implements OnClickListener {
 		profile.setComment(editTextComment.getText().toString());
 		
 		boolean result = ProfileManager.saveOrUpdateProfile(EditProfileActivity.this, profile);
-		if (!result) Toast.makeText(EditProfileActivity.this, "Не удалось сохранить профиль", Toast.LENGTH_LONG).show();
+		if (!result) Toast.makeText(EditProfileActivity.this, R.string.msg_UnableToSaveProject, Toast.LENGTH_LONG).show();
 		
 		return result;
 	}
@@ -122,7 +147,9 @@ public class EditProfileActivity extends Activity implements OnClickListener {
 			case R.id.buttonCreatePicket:
 				if (saveData()){
 					Intent intent = new Intent(this, EditPicketActivity.class);
-					intent.putExtra(Stuff.PROFILE_ID, profile.getId().toString());
+					
+					putPicketActivityBaseExtras(intent);
+					
 					startActivity(intent);
 				}
 				break;

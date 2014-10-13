@@ -23,7 +23,7 @@ public class PicketManager {
 		
 		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 		SQLiteDatabase database = dataBaseHelper.getReadableDatabase();
-		Cursor cursor = database.query(DataBaseHelper.PICKET_TABLE, null, null, null, null, null, null);
+		Cursor cursor = database.query(DataBaseHelper.PICKET_TABLE, null, DataBaseHelper.COLUMN_PROFILE_ID + " = ?", new String[]{ profiletId.toString() }, null, null, null);
 		if (cursor.moveToFirst()){
 			do{
 				Picket picket = new Picket();
@@ -71,7 +71,7 @@ public class PicketManager {
 			picket.setId(UUID.randomUUID());
 			database.insert(DataBaseHelper.PICKET_TABLE, null, getContentValues(picket));
 			
-			if (currentProfileId.equals(picket.getProfileId()))
+			if (currentProfileId != null && currentProfileId.equals(picket.getProfileId()))
 				pickets.add(picket);
 		}
 		else {

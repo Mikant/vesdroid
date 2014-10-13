@@ -9,7 +9,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.widget.Toast;
 
-public class Stuff {
+public final class Stuff {
 	public static final int REQUEST_CODE_CREATE = 1;
 	public static final int REQUEST_CODE_EDIT = 2;
 	public static final int REQUEST_CODE_CHOOSE = 3;

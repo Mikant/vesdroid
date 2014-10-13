@@ -67,7 +67,7 @@ public class ProtocolViewActivity extends Activity {
 	        currentProtocol = ProtocolManager.getProtocolById(this, id);
 	        if (currentProtocol == null) finish();
 	        
-	        setTitle("Проткол: " + currentProtocol.getName());
+	        setTitle("Протокол: " + currentProtocol.getName());
 	        
 	        initListView();
 	    }

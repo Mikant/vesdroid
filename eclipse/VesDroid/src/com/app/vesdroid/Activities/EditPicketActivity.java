@@ -18,8 +18,10 @@ import android.widget.Toast;
 
 public class EditPicketActivity extends Activity implements OnClickListener {
 
+	String projectId;
 	String profileId;
 	String picketId;
+	
 	Picket picket;
 	
 	EditText editTextLocation;
@@ -50,8 +52,11 @@ public class EditPicketActivity extends Activity implements OnClickListener {
 		super.onResume();
 		
 		Bundle bundle = getIntent().getExtras();
+		
+		projectId = bundle.getString(Stuff.PROJECT_ID);
 		profileId = bundle.getString(Stuff.PROFILE_ID);
 		picketId = bundle.getString(Stuff.PICKET_ID);
+		
 		if (picketId == null){
 			picket = new Picket();
 			picket.setProfileId(profileId);
@@ -84,6 +89,7 @@ public class EditPicketActivity extends Activity implements OnClickListener {
 			case R.id.buttonGoToRecords:
 				if (saveData()){
 					Intent intent = new Intent(this, WorkActivity.class);
+					intent.putExtra(Stuff.PROJECT_ID, projectId);
 					intent.putExtra(Stuff.PROFILE_ID, profileId);
 					intent.putExtra(Stuff.PICKET_ID, picketId);
 					startActivity(intent);

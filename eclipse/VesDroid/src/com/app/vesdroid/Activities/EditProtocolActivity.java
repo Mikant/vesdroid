@@ -86,6 +86,7 @@ public class EditProtocolActivity extends Activity implements OnClickListener, O
 			currentProtocol = new Protocol();
 			for (int i = 0; i < cnt; i++) {
 				float a = min + i * stp;
+				a = Math.round(a * 1000) / 1000f;
 				currentProtocol.getABMNs().add(new ABMN(-a,a,-1,1));
 			}
 			
@@ -140,6 +141,7 @@ public class EditProtocolActivity extends Activity implements OnClickListener, O
 					Intent intent = new Intent(this, ProtocolViewActivity.class);
 					intent.putExtra(Stuff.PROTOCOL_ID, currentProtocol.getId().toString());
 					startActivity(intent);
+					finish();
 				}
 				break;
 	

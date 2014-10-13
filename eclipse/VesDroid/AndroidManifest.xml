@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.app.vesdroid.Activities.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,20 +35,20 @@
 			    <action android:name="android.intent.action.PICK" />
 			    <category android:name="android.intent.category.DEFAULT" />
 			    <category android:name="android.intent.category.BROWSABLE" /> 
-				<data android:mimeType="text/csv" />  
-			    <data android:pathPattern="*.csv" />
+				<data android:mimeType="text/vesdroidprotocol" />  
+			    <data android:pathPattern="*.protocol" />
 			</intent-filter>
         </activity>
         
-        <activity android:name="com.app.vesdroid.Activities.EditPicketActivity"></activity>
-        <activity android:name="com.app.vesdroid.Activities.EditProfileActivity"></activity>
-        <activity android:name="com.app.vesdroid.Activities.EditProjectActivity"></activity>
-        <activity android:name="com.app.vesdroid.Activities.EditProtocolActivity"></activity>
-        <activity android:name="com.app.vesdroid.Activities.PicketViewActivity"></activity>
-        <activity android:name="com.app.vesdroid.Activities.ProjectsActivity"></activity>
-        <activity android:name="com.app.vesdroid.Activities.ProtocolsActivity"></activity>
-        <activity android:name="com.app.vesdroid.Activities.ProtocolViewActivity"></activity>
-        <activity android:name="com.app.vesdroid.Activities.WorkActivity"></activity>
+        <activity android:name="com.app.vesdroid.Activities.EditPicketActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name="com.app.vesdroid.Activities.EditProfileActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name="com.app.vesdroid.Activities.EditProjectActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name="com.app.vesdroid.Activities.EditProtocolActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name="com.app.vesdroid.Activities.PicketViewActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name="com.app.vesdroid.Activities.ProjectsActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name="com.app.vesdroid.Activities.ProtocolsActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name="com.app.vesdroid.Activities.ProtocolViewActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name="com.app.vesdroid.Activities.WorkActivity" android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>
