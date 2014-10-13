@@ -28,6 +28,8 @@ import com.app.vesdroid.Model.Stuff;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -181,7 +183,7 @@ public class PicketViewActivity extends Activity {
 			mRenderer.addSeriesRenderer(renderer);
 		
 		}
-
+		
 		final GraphicalView chartView = ChartFactory.getLineChartView(this, dataset, mRenderer);
 		chartView.addPanListener(new PanListener() {
 			
@@ -219,20 +221,7 @@ public class PicketViewActivity extends Activity {
 				SeriesSelection seriesSelection = chartView.getCurrentSeriesAndPoint();
                 double[] xy = chartView.toRealPoint(0);
 
-                if (seriesSelection == null) {
-                  Toast.makeText(PicketViewActivity.this, "No chart element was clicked", Toast.LENGTH_LONG)
-                      .show();
-                } else {
-                	int i = seriesSelection.getPointIndex();
-                  /*Toast.makeText(
-                		  MainActivity.this,
-                      "Chart element in series index " + seriesSelection.getSeriesIndex()
-                          + " data point index " + seriesSelection.getPointIndex() + " was clicked"
-                          + " closest point value X=" + seriesSelection.getXValue() + ", Y=" + seriesSelection.getValue()
-                          + " clicked point value X=" + (float) xy[0] + ", Y=" + (float) xy[1], Toast.LENGTH_LONG).show();
-                       */   
-                  
-                  //findPoint((float)xy[0], (float)xy[1], xxx, yyy);
+                if (seriesSelection != null) {
                 	findPoint(seriesSelection.getSeriesIndex(), (float)xy[0], (float)xy[1]);
                 }
 			}
@@ -242,10 +231,10 @@ public class PicketViewActivity extends Activity {
 		linearLayout.addView(chartView);
 	}
 	
-	private void findPoint(int ind, float xx, float yy){
+	private void findPoint(int ind, float lgX, float lgY){
 		ArrayList<Point> abrs = hmABR.get(ind);
-		float x = (float) Math.pow(10, xx);
-		float y = (float) Math.pow(10, yy);
+		float x = (float) Math.pow(10, lgX);
+		float y = (float) Math.pow(10, lgY);
 		float minDX = Float.MAX_VALUE;
 		float minDY = Float.MAX_VALUE;
 		float resX = Float.NaN;
@@ -271,6 +260,22 @@ public class PicketViewActivity extends Activity {
 						+ "I = " + 222
 				, Toast.LENGTH_LONG)
 				.show();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 0, 0, "Изменить цвет");
+
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == 0){
+			// TODO edit color
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 }
