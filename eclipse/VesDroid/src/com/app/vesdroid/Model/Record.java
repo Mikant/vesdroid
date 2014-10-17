@@ -75,7 +75,6 @@ public class Record {
 	
 	@Override
 	public String toString() {
-		return "|AB|/2 = " + Stuff.mod(a, b) * 0.5 
-				+ "; |MN| = " + Stuff.mod(m, n);
+		return "|AB|/2 = " + Stuff.round(Stuff.mod(a, b) * 0.5, 2) + "; |MN| = " + Stuff.round(Stuff.mod(m, n), 2);
 	}
 }

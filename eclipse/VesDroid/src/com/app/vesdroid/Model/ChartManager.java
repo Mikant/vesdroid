@@ -41,9 +41,7 @@ public class ChartManager {
 		generateGraphicalView(records);
 	}
 	
-	public void generateGraphicalView(ArrayList<Record> records) {
-		this.records = records;
-		
+	public void generateGraphicalView(ArrayList<Record> rawRecords) {
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 		XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
 		mRenderer.setMarginsColor(Color.argb(0x00, 0xff, 0x00, 0x00));
@@ -57,29 +55,41 @@ public class ChartManager {
 		mRenderer.setShowCustomTextGrid(true);
 		mRenderer.setMargins(new int[]{10, 50, 0, 10});
 		
+		this.records = new ArrayList<Record>();
+		
 		ArrayList<Float> abs = new ArrayList<Float>();
 		ArrayList<Float> rs = new ArrayList<Float>();
 		ArrayList<Float> mns = new ArrayList<Float>();
-		int cnt = records.size();
+		int cnt = rawRecords.size();
 		for (int i = 0; i < cnt; i++) {
-			Record record = records.get(i);
+			Record record = rawRecords.get(i);
+			
 			float ab = Stuff.mod(record.getA(), record.getB()) * 0.5f;
 			float r = Stuff.resistance(record);
 			float mn = Stuff.mod(record.getM(), record.getN());
+			
+			if (!Stuff.isFinite(ab) || !Stuff.isFinite(r))
+				continue;
+			
+			if (ab <= 0 || r <= 0)
+				continue;
+			
+			records.add(record);
 			abs.add(ab);
 			rs.add(r);
 			mns.add(mn);
-			
-			float x = (float) Math.log10(ab);
-			float y = (float) Math.log10(r);
-			mRenderer.addXTextLabel(x, "" + ab);
-			mRenderer.addYTextLabel(y, "" + r);
 		}
 		
-		float max = Float.MIN_VALUE;
+		float min_x = Float.MAX_VALUE;			
+		float max_x = Float.MIN_VALUE;			
+		float min_y = Float.MAX_VALUE;			
+		float max_y = Float.MIN_VALUE;
+		
 		S2XYs = new HashMap<Integer, ArrayList<Point>>();
 		S2Records = new HashMap<Integer, ArrayList<Record>>();
 		HashMap<Float, Integer> MN2S = new HashMap<Float, Integer>();
+		
+		cnt = records.size();
 		for (int i = 0; i < cnt; i++) {
 			float mn = mns.get(i);
 			mn = Math.round(mn * 1000) / 1000f; // округляем до мм
@@ -102,20 +112,48 @@ public class ChartManager {
 				renderer.setPointStrokeWidth(3);
 				mRenderer.addSeriesRenderer(renderer);
 			}
+			
 			xySeries = dataset.getSeriesAt(s);
 
 			float x = (float) Math.log10(abs.get(i));
 			float y = (float) Math.log10(rs.get(i));
+			
 			xySeries.add(x, y);
+			
+			//mRenderer.addXTextLabel(x, "" + abs.get(i));
+			//mRenderer.addYTextLabel(y, "" + rs.get(i));
+			
 			S2XYs.get(s).add(new Point(x, y));
 			S2Records.get(s).add(records.get(i));
 			
-			if (x > max) max = x;
-			if (y > max) max = y;
+			if (x > max_x) max_x = x;
+			if (y > max_y) max_y = y;
+			if (x < min_x) min_x = x;
+			if (y < min_y) min_y = y;
+			
 		}
 		
-		mRenderer.setXAxisMax(max);
-		mRenderer.setYAxisMax(max);
+		// оси
+		for (int i = (int)min_x; i < max_x; i++) {
+			mRenderer.addXTextLabel(i, "10^" + i);
+			
+			double value = Math.pow(10, i);
+			for (float j = 2; j < 10; j++) {
+				mRenderer.addXTextLabel(Math.log10(value * j), "");
+			}
+		}
+		
+		for (int i = (int)min_y; i < max_y; i++) {
+			mRenderer.addYTextLabel(i, "10^" + i);
+			
+			double value = Math.pow(10, i);
+			for (float j = 2; j < 10; j++) {
+				mRenderer.addYTextLabel(Math.log10(value * j), "");
+			}
+		}
+		
+		mRenderer.setXAxisMax(Math.max(max_x, max_y));
+		mRenderer.setYAxisMax(Math.max(max_x, max_y));
 		
 		graphicalView = ChartFactory.getLineChartView(context, dataset, mRenderer);
 		graphicalView.setBackgroundColor(Color.WHITE);
@@ -154,7 +192,6 @@ public class ChartManager {
 				}
 				
 				SeriesSelection seriesSelection = graphicalView.getCurrentSeriesAndPoint();
-                double[] xy = graphicalView.toRealPoint(0);
 
                 if (seriesSelection != null) {
                 	findPoint(seriesSelection.getSeriesIndex(), (float)seriesSelection.getXValue(), (float)seriesSelection.getValue());

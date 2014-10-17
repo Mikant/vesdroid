@@ -44,4 +44,13 @@ public final class Stuff {
 	public static float mod(float x, float y){
 		return Math.abs(x - y);
 	}
+	
+	public static float round(double value, int decimalPlaces) {
+		int pow = (int)Math.pow(10, decimalPlaces);
+		return Math.round(value * pow) / (float)pow;
+	}
+	
+	public static boolean isFinite(float value) {
+		return !Float.isNaN(value) && !Float.isInfinite(value);
+	}
 }

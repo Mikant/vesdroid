@@ -207,7 +207,7 @@ public class EditProfileActivity extends Activity {
 			
 		}
 		else if (id == Stuff.DIALOG_DELETE) {
-			builder.setMessage("Удалить профиль?")
+			builder.setMessage("Удалить пикет?")
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					
 					@Override
