@@ -92,4 +92,76 @@ public class PicketManager {
 		result.put(DataBaseHelper.COLUMN_PROFILE_ID, picket.getProfileId().toString());
 		return result;
 	}
+	
+	public static boolean deletePicketsByProfiletId(Context context, UUID id, SQLiteDatabase database){
+		DataBaseHelper dataBaseHelper = null; 
+		
+		if (database == null) {
+			dataBaseHelper = new DataBaseHelper(context);
+			database = dataBaseHelper.getWritableDatabase();
+		}
+		
+		Cursor cursor = database.query(DataBaseHelper.PICKET_TABLE
+				, new String[]{ DataBaseHelper.COLUMN_ID }
+				, DataBaseHelper.COLUMN_PROFILE_ID + " = ?"
+				, new String[]{ id.toString() }
+				, null
+				, null
+				, null);
+		if (cursor.moveToFirst()){
+			do {
+				RecordManager.deleteRecordsByPicketId(context, cursor.getString(0), database);
+			} while (cursor.moveToNext());
+		}
+		
+		database.delete(DataBaseHelper.PICKET_TABLE, DataBaseHelper.COLUMN_PROFILE_ID + " = ?", new String[] {id.toString()});
+		
+		if (dataBaseHelper != null) {
+			database.close();
+			dataBaseHelper.close();
+		}
+
+		if (currentProfileId != null && currentProfileId.equals(id))
+		{
+			currentProfileId = null;
+			pickets = null;
+		}
+		
+		return true;
+	}
+	
+	public static boolean deletePicketsByProfiletId(Context context, String id, SQLiteDatabase database){
+		return deletePicketsByProfiletId(context, UUID.fromString(id), database);
+	}
+	
+	public static boolean deletePicketById(Context context, UUID id){
+		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+		SQLiteDatabase database = dataBaseHelper.getWritableDatabase();
+		
+		RecordManager.deleteRecordsByPicketId(context, id, database);
+		database.delete(DataBaseHelper.PICKET_TABLE, DataBaseHelper.COLUMN_ID + " = ?", new String[]{ id.toString() });
+		
+		database.close();
+		dataBaseHelper.close();
+		
+		if (pickets != null){
+			for (int i = 0; i < pickets.size(); i++) {
+				if (id.equals(pickets.get(i).getId())){
+					pickets.remove(i);
+					break;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public static boolean deletePicketById(Context context, String id){
+		return deletePicketById(context, UUID.fromString(id));
+	}
+	
+	public static void clear() {
+		currentProfileId = null;
+		pickets = null;
+	}
 }

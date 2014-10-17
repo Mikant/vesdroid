@@ -14,6 +14,11 @@ public final class Stuff {
 	public static final int REQUEST_CODE_EDIT = 2;
 	public static final int REQUEST_CODE_CHOOSE = 3;
 	
+	public static final int DIALOG_CREATE = 1;
+	public static final int DIALOG_DELETE = 2;
+	public static final int DIALOG_EDIT_NAME = 3;
+	public static final int DIALOG_EDIT_COMMENT = 4;
+	
 	public static final String REQUEST_CODE = "REQUEST_CODE";
 	public static final String PROTOCOL_ID = "PROTOCOL_ID";
 	public static final String PROJECT_ID = "PROJECT_ID";
@@ -21,6 +26,10 @@ public final class Stuff {
 	public static final String PICKET_ID = "PICKET_ID";
 	public static final String ACTIVE_PROTOCOL_ID = "ACTIVE_PROTOCOL_ID";
 	public static final String SHARED_PREFERENCES = "SHARED_PREFERENCES";
+	public static final String A = "A";
+	public static final String B = "B";
+	public static final String M = "M";
+	public static final String N = "N";
 	
 	public static final float EPS = 1E-3f;
 	

@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:scrollbars="none"
+    android:fillViewport="true"> 
+    
+<TableLayout 
+     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:stretchColumns="1">
+    android:stretchColumns="1"
+    android:weightSum="2">
 
     <TableRow
         android:id="@+id/tableRow1"
@@ -71,95 +80,61 @@
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:layout_weight="1">
+        android:id="@+id/tableRowGraphicalView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<!-- 
+        <LinearLayout
+            android:id="@+id/linearLayoutGraphicalView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:orientation="vertical" 
+            android:layout_span="2">
+        </LinearLayout>
+ -->
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow4"
+        android:id="@+id/tableRowAB"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/textViewAx"
+            android:id="@+id/textViewAB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ax"
+            android:text="|AB|/2"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
-            android:id="@+id/textViewAxValue"
+            android:id="@+id/textViewABValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Значение А"
+            android:text="Значение АB"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
+        
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow5"
+        android:id="@+id/tableRowMN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
-
+        
         <TextView
-            android:id="@+id/textViewBx"
+            android:id="@+id/textViewMN"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bx"
+            android:text="|MN|"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
-            android:id="@+id/textViewBxValue"
+            android:id="@+id/textViewMNValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Значение А"
+            android:text="Значение MN"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
+        
     </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/textViewMx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mx"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/textViewMxValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Значение А"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    </TableRow>
-    
-    <TableRow
-        android:id="@+id/tableRow61"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/textViewNx"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nx"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/textViewNxValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Значение А"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    </TableRow>    
 
     <TableRow
         android:id="@+id/tableRow7"
@@ -206,8 +181,7 @@
     <TableRow
         android:id="@+id/tableRow10"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"  
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
     </TableRow>
 
     <TableRow
@@ -226,3 +200,4 @@
     </TableRow>
 
 </TableLayout>
+</ScrollView>

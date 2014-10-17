@@ -35,8 +35,8 @@
 			    <action android:name="android.intent.action.PICK" />
 			    <category android:name="android.intent.category.DEFAULT" />
 			    <category android:name="android.intent.category.BROWSABLE" /> 
-				<data android:mimeType="text/vesdroidprotocol" />  
-			    <data android:pathPattern="*.protocol" />
+				<data android:mimeType="text/plain" />  
+			    <data android:pathPattern="*.txt" />
 			</intent-filter>
         </activity>
         

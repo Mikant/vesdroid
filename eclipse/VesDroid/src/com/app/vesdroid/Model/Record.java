@@ -72,4 +72,10 @@ public class Record {
 	public void setDateTimeMillis(long dateTimeMillis) {
 		this.dateTimeMillis = dateTimeMillis;
 	}
+	
+	@Override
+	public String toString() {
+		return "|AB|/2 = " + Stuff.mod(a, b) * 0.5 
+				+ "; |MN| = " + Stuff.mod(m, n);
+	}
 }

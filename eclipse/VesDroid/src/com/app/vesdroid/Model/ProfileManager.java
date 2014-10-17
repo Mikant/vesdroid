@@ -92,4 +92,76 @@ public class ProfileManager {
 		result.put(DataBaseHelper.COLUMN_PROJECT_ID, profile.getProjectId().toString());
 		return result;
 	}
+	
+	public static boolean deleteProfilesByProjectId(Context context, UUID id, SQLiteDatabase database){
+		DataBaseHelper dataBaseHelper = null; 
+		
+		if (database == null) {
+			dataBaseHelper = new DataBaseHelper(context);
+			database = dataBaseHelper.getWritableDatabase();
+		}
+		
+		Cursor cursor = database.query(DataBaseHelper.PROFILE_TABLE
+				, new String[]{ DataBaseHelper.COLUMN_ID }
+				, DataBaseHelper.COLUMN_PROJECT_ID + " = ?"
+				, new String[]{ id.toString() }
+				, null
+				, null
+				, null);
+		if (cursor.moveToFirst()){
+			do {
+				PicketManager.deletePicketsByProfiletId(context, cursor.getString(0), database);
+			} while (cursor.moveToNext());
+		}
+		
+		database.delete(DataBaseHelper.PROFILE_TABLE, DataBaseHelper.COLUMN_PROJECT_ID + " = ?", new String[] {id.toString()});
+		
+		if (dataBaseHelper != null) {
+			database.close();
+			dataBaseHelper.close();
+		}
+
+		if (currentProjectId != null && currentProjectId.equals(id))
+		{
+			currentProjectId = null;
+			profiles = null;
+		}
+		
+		return true;
+	}
+	
+	public static boolean deleteProfilesByProjectId(Context context, String id, SQLiteDatabase database) {
+		return deleteProfilesByProjectId(context, UUID.fromString(id), database);
+	}
+	
+	public static boolean deleteProfileById(Context context, UUID id){
+		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+		SQLiteDatabase database = dataBaseHelper.getWritableDatabase();
+		
+		PicketManager.deletePicketsByProfiletId(context, id, database);
+		database.delete(DataBaseHelper.PROFILE_TABLE, DataBaseHelper.COLUMN_ID + " = ?", new String[]{ id.toString() });
+		
+		database.close();
+		dataBaseHelper.close();
+		
+		if (profiles != null){
+			for (int i = 0; i < profiles.size(); i++) {
+				if (id.equals(profiles.get(i).getId())){
+					profiles.remove(i);
+					break;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public static boolean deleteProfileById(Context context, String id){
+		return deleteProfileById(context, UUID.fromString(id));
+	}
+	
+	public static void clear() {
+		currentProjectId = null;
+		profiles = null;
+	}
 }

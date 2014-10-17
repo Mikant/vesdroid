@@ -19,12 +19,14 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -54,8 +56,8 @@ public class ProtocolViewActivity extends Activity {
       Protocol currentProtocol;
       ABMN currentABMN;
       
-      static final int NAME_DIALOG = 0;
-      static final int ABMN_DIALOG = 1;
+      static final int DIALOG_NAME = 1;
+      static final int DIALOG_ABMN = 2;
 	  
 	    /** Called when the activity is first created. */
 	    @Override
@@ -105,11 +107,11 @@ public class ProtocolViewActivity extends Activity {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int position, long arg3) {
-					if (position == 0) ProtocolViewActivity.this.showDialog(NAME_DIALOG);
+					if (position == 0) ProtocolViewActivity.this.showDialog(DIALOG_NAME);
 					else {
 						currentHashMap = data.get(position);
 						currentABMN = currentProtocol.getABMNs().get(position-1);
-						ProtocolViewActivity.this.showDialog(ABMN_DIALOG);
+						ProtocolViewActivity.this.showDialog(DIALOG_ABMN);
 					}
 				}
 			});
@@ -121,13 +123,14 @@ public class ProtocolViewActivity extends Activity {
 	        AlertDialog.Builder adb = new AlertDialog.Builder(this);
 	        adb.setView(view);
 	        
-	        if (id == NAME_DIALOG){
+	        if (id == DIALOG_NAME){
 	        	LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.layoutName);
 	        	linearLayout.setVisibility(View.VISIBLE);
 	        	TableLayout tableLayout = (TableLayout) view.findViewById(R.id.layoutABMN);
 	        	tableLayout.setVisibility(View.GONE);
 	        	
-		        adb.setTitle("Редактирование названия")
+		        adb
+		        .setTitle("Редактирование названия")
 		        .setPositiveButton(R.string.saveString, new DialogInterface.OnClickListener() {
 					
 					@Override
@@ -140,13 +143,14 @@ public class ProtocolViewActivity extends Activity {
 					}
 				});
 	        }
-	        else if (id == ABMN_DIALOG){
+	        else if (id == DIALOG_ABMN){
 	        	LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.layoutName);
 	        	linearLayout.setVisibility(View.GONE);
 	        	TableLayout tableLayout = (TableLayout) view.findViewById(R.id.layoutABMN);
 	        	tableLayout.setVisibility(View.VISIBLE);
 	        	
-		        adb.setTitle("Редактирование значений")
+		        adb
+		        //.setTitle("Редактировать значения")
 		        .setPositiveButton(R.string.saveString, new DialogInterface.OnClickListener() {
 					
 					@Override
@@ -175,11 +179,15 @@ public class ProtocolViewActivity extends Activity {
 			});
 	        
 	        AlertDialog alertDialog = adb.create();
+	        alertDialog.getWindow()
+	        	.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+	        
 	        editTextAx = (EditText) view.findViewById(R.id.editTextAx);
 	        editTextBx = (EditText) view.findViewById(R.id.editTextBx);
 	        editTextMx = (EditText) view.findViewById(R.id.editTextMx);
 	        editTextNx = (EditText) view.findViewById(R.id.editTextNx); 
 	        editTextName = (EditText) view.findViewById(R.id.editTextName);
+	        
 	        return alertDialog;
 	    }
 	    
@@ -187,8 +195,8 @@ public class ProtocolViewActivity extends Activity {
 	    protected void onPrepareDialog(int id, Dialog dialog) {
 	    	super.onPrepareDialog(id, dialog);
 	    	
-	    	if (id == NAME_DIALOG) editTextName.setText(currentProtocol.getName());
-	    	else if (id == ABMN_DIALOG){
+	    	if (id == DIALOG_NAME) editTextName.setText(currentProtocol.getName());
+	    	else if (id == DIALOG_ABMN){
 		    	editTextAx.setText(currentHashMap.get("Ax").toString());
 		    	editTextBx.setText(currentHashMap.get("Bx").toString());
 		    	editTextMx.setText(currentHashMap.get("Mx").toString());
@@ -207,7 +215,7 @@ public class ProtocolViewActivity extends Activity {
 	    @Override
 	    public boolean onOptionsItemSelected(MenuItem item) {
 	    	if (item.getItemId() == 0) {
-	    		ImportExport.exportData(this,  currentProtocol);
+	    		ImportExport.exportProtocol(this,  currentProtocol);
 	    	}
 	    	else if (item.getItemId() == 1) {
 	    		SharedPreferences sp = getSharedPreferences(Stuff.SHARED_PREFERENCES, MODE_PRIVATE);

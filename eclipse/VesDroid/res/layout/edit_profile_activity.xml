@@ -13,7 +13,7 @@
     android:stretchColumns="*" >
 
     <TableRow
-        android:id="@+id/tableRow1"
+        android:id="@+id/tableRowName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
@@ -24,18 +24,18 @@
             android:layout_weight="1"
             android:text="Имя" />
 
-        <EditText
-            android:id="@+id/editTextName"
+        <TextView
+            android:id="@+id/textViewNameValue"
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="10" >
-        </EditText>
+            android:textAppearance="?android:attr/textAppearanceLarge" >
+        </TextView>
 
     </TableRow>
 
     <TableRow
-        android:id="@+id/tableRow2"
+        android:id="@+id/tableRowComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
@@ -46,22 +46,16 @@
             android:layout_height="wrap_content"
             android:text="Комментарий" />
 
-        <EditText
-            android:id="@+id/editTextComment"
+        <TextView
+            android:id="@+id/textViewCommentValue"
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="10" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </TableRow>
     
 </TableLayout>
-
-        <Button
-            android:id="@+id/buttonCreatePicket"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Создать пикет" />
  
         <ListView
             android:id="@+id/listViewPicket"
@@ -69,25 +63,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp" >
         </ListView>
-
-        <LinearLayout
+        
+        <Button
+            android:id="@+id/buttonCreatePicket"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <Button
-                android:id="@+id/buttonSaveProfile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Сохранить" />
-
-            <Button
-                android:id="@+id/buttonCancelProfile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Отмена" />
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="Создать пикет" />
 
 </LinearLayout>

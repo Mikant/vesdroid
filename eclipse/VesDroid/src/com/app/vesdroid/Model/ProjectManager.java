@@ -71,12 +71,42 @@ public class ProjectManager {
 		
 		return true;
 	}
-	
-	public static ContentValues getContentValues(Project project){
+		
+	private static ContentValues getContentValues(Project project){
 		ContentValues result = new ContentValues();
 		result.put(DataBaseHelper.COLUMN_ID, project.getId().toString());
 		result.put(DataBaseHelper.COLUMN_NAME, project.getName());
 		result.put(DataBaseHelper.COLUMN_COMMENT, project.getComment());
 		return result;
+	}
+	
+	public static boolean deleteProjectById(Context context, UUID id){
+		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+		SQLiteDatabase database = dataBaseHelper.getWritableDatabase();
+		
+		ProfileManager.deleteProfilesByProjectId(context, id, database);
+		database.delete(DataBaseHelper.PROJECT_TABLE, DataBaseHelper.COLUMN_ID + " = ?", new String[] {id.toString()});
+		
+		database.close();
+		dataBaseHelper.close();
+
+		if (projects != null) {
+			for (int i = 0; i < projects.size(); i++) {
+				if (id.equals(projects.get(i).getId())) {
+					projects.remove(i);
+					break;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public static boolean deleteProjectById(Context context, String id) {
+		return deleteProjectById(context, UUID.fromString(id));
+	}
+	
+	public static void clear() {
+		projects = null;
 	}
 }

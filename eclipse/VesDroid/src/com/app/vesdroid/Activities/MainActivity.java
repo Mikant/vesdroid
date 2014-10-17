@@ -7,8 +7,12 @@ import java.io.InputStream;
 
 import com.app.vesdroid.R;
 import com.app.vesdroid.Model.ImportExport;
+import com.app.vesdroid.Model.PicketManager;
+import com.app.vesdroid.Model.ProfileManager;
+import com.app.vesdroid.Model.ProjectManager;
 import com.app.vesdroid.Model.Protocol;
 import com.app.vesdroid.Model.ProtocolManager;
+import com.app.vesdroid.Model.RecordManager;
 import com.app.vesdroid.Model.Stuff;
 
 import android.net.Uri;
@@ -78,8 +82,13 @@ public class MainActivity extends Activity implements OnClickListener {
 			      break;
 			      
 		    case R.id.buttonExit:
-			      finish();
-			      break;	
+		    	ProtocolManager.clear();
+		    	ProjectManager.clear();
+		    	ProfileManager.clear();
+		    	PicketManager.clear();
+		    	RecordManager.clear();
+		    	finish();
+		    	break;	
 			      
 		    default:
 		      break;

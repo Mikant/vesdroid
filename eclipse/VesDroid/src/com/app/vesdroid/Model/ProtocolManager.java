@@ -185,4 +185,34 @@ public class ProtocolManager {
 		
 		return protocol;
 	}
+	
+	public static boolean deleteProtocolById(Context context, UUID id){
+		DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
+		SQLiteDatabase database = dataBaseHelper.getWritableDatabase();
+		
+		database.delete(DataBaseHelper.PROTOCOL_TABLE, DataBaseHelper.COLUMN_ID + " = ?", new String[] {id.toString()});
+		database.delete(DataBaseHelper.ABMN_TABLE, DataBaseHelper.COLUMN_PROTOCOL_ID + " = ?", new String[] {id.toString()});
+		
+		database.close();
+		dataBaseHelper.close();
+		
+		if (protocols != null) {
+			for (int i = 0; i < protocols.size(); i++) {
+				if (id.equals(protocols.get(i).getId())){
+					protocols.remove(i);
+					break;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public static boolean deletePtotocolById(Context context, String id){
+		return deleteProtocolById(context, UUID.fromString(id));
+	}
+	
+	public static void clear() {
+		protocols = null;
+	}
 }
