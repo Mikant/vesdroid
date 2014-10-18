@@ -78,7 +78,7 @@ public class ImportExport {
 	
 	public static void importData(Context context, Uri uri){
 		try{
-			BufferedReader reader = new BufferedReader(new FileReader(uri.getPath()));
+     			BufferedReader reader = new BufferedReader(new FileReader(uri.getPath()));
 			
 			// пробуем прочитать XML
 			try {
@@ -112,10 +112,12 @@ public class ImportExport {
 			}
 			// не получилось, может быть это CSV 
 			catch (Exception e) {
+				reader.close();
+				reader = new BufferedReader(new FileReader(uri.getPath()));
+				
 				String line;
 				String file = "";
 				while ((line = reader.readLine()) != null) {
-					line = reader.readLine();
 					if (line == null) continue;
 					
 					Protocol protocol = new Protocol();
@@ -194,7 +196,7 @@ public class ImportExport {
 	}
 	
 	public static void exportProtocol(Context context, Protocol protocol){
-	    String fileName = protocol.getName() + ".txt";
+	    String fileName = protocol.getName() + ".vesprot";
 	    File file = validateExport(context, fileName);
 	    
 	    if (file == null) return;
@@ -212,7 +214,7 @@ public class ImportExport {
 	}
 	
 	public static void exportProfile(Context context, Profile profile){
-	    String fileName = profile.getName() + ".txt";
+	    String fileName = profile.getName() + ".vesprof";
 	    File file = validateExport(context, fileName);
 	    
 	    if (file == null) return;
@@ -241,7 +243,7 @@ public class ImportExport {
 	}
 	
 	public static void exportProject(Context context, Project project){
-	    String fileName = project.getName() + ".txt";
+	    String fileName = project.getName() + ".vesproj";
 	    File file = validateExport(context, fileName);
 	    
 	    if (file == null) return;
@@ -262,7 +264,7 @@ public class ImportExport {
 				serializeProfile(context, xmlSerializer, profiles.get(i));
 	    	}
 			
-			xmlSerializer.endTag(null, PROFILE);
+			xmlSerializer.endTag(null, PROJECT);
 		    
 		    xmlSerializer.endDocument();
 		    xmlSerializer.flush();

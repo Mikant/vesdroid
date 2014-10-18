@@ -17,6 +17,7 @@ import com.app.vesdroid.Model.Stuff;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings.System;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -47,6 +48,14 @@ public class MainActivity extends Activity implements OnClickListener {
 		buttonExit.setOnClickListener(this);
 		
 		Intent intent = getIntent();
+		String action = intent.getAction();
+		if (action == Intent.ACTION_VIEW)
+			ImportExport.importData(this, intent.getData());
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
 		String action = intent.getAction();
 		if (action == Intent.ACTION_VIEW)
 			ImportExport.importData(this, intent.getData());
@@ -94,5 +103,4 @@ public class MainActivity extends Activity implements OnClickListener {
 		      break;
 	    }
 	}
-
 }
